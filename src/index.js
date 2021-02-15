@@ -3,29 +3,42 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-// import { gql } from '@apollo/client'
-// import { ApolloClient, InMemoryCache } from '@apollo/client'
+import * as Realm from 'realm-web'
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client'
+const APP_ID = 'application-0-jdoxb'
+const graphQLUrl = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
 
-// const client = new ApolloClient({
-//     uri: 'https://48p1r2roz4.sse.codesandbox.io',
-//     cache: new InMemoryCache()
-// })
+const app = new Realm.App(APP_ID)
 
-// client
-//     .query({
-//         query: gql`
-//             query GetRates {
-//                 rates(currency: "USD") {
-//                     currency
-//                 }
-//             }
-//         `
-//     })
-//     .then(result => console.log(result))
+async function getValidAccessToken() {
+    if (!app.currentUser) {
+        // If no user is logged in, log in an anonymous user
+        await app.logIn(Realm.Credentials.anonymous())
+    } else {
+        // The logged in user's access token might be stale,
+        // Refreshing custom data also refreshes the access token
+        await app.currentUser.refreshCustomData()
+    }
+    // Get a valid access token for the current user
+    return app.currentUser.accessToken
+}
+const client = new ApolloClient({
+    link: new HttpLink({
+        uri: graphQLUrl,
+        fetch: async (uri, options) => {
+            const accessToken = await getValidAccessToken()
+            options.headers.Authorization = `Bearer ${accessToken}`
+            return fetch(uri, options)
+        }
+    }),
+    cache: new InMemoryCache()
+})
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <ApolloProvider client={client}>
+            <App />
+        </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root')
 )
