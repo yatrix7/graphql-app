@@ -5,8 +5,11 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as Realm from 'realm-web'
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client'
+import { BrowserRouter } from 'react-router-dom'
+
 const APP_ID = 'application-0-jdoxb'
 const graphQLUrl = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
+
 
 const app = new Realm.App(APP_ID)
 
@@ -37,7 +40,9 @@ const client = new ApolloClient({
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <App />
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root')
