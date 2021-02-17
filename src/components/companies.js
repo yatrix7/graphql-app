@@ -12,9 +12,10 @@ import {
 } from '@material-ui/core'
 import { gql, useQuery } from '@apollo/client'
 import { Link } from 'react-router-dom'
+import ColumnHeader from './columnHeader'
 
 const Companies = props => {
-    const { loading, error, data } = useQuery(gql`
+    const { loading, data } = useQuery(gql`
         query allCompanies {
             companies {
                 _id
@@ -34,24 +35,21 @@ const Companies = props => {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Company Number</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Last Updated</TableCell>
+                            <ColumnHeader>Company Number</ColumnHeader>
+                            <ColumnHeader>Name</ColumnHeader>
+                            <ColumnHeader>Last Updated</ColumnHeader>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {companies.map(({ _id, company, name, lastUpdated }) => {
-                            console.log(_id)
-                            return (
-                                <TableRow key={company} hover={true}>
-                                    <TableCell component="th">{company}</TableCell>
-                                    <TableCell>
-                                        <Link to={`/companies/${_id}`}>{name}</Link>
-                                    </TableCell>
-                                    <TableCell>{lastUpdated}</TableCell>
-                                </TableRow>
-                            )
-                        })}
+                        {companies.map(({ _id, company, name, lastUpdated }) => (
+                            <TableRow key={company} hover={true}>
+                                <TableCell component="th">{company}</TableCell>
+                                <TableCell>
+                                    <Link to={`/companies/${_id}`}>{name}</Link>
+                                </TableCell>
+                                <TableCell>{lastUpdated}</TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

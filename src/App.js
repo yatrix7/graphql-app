@@ -1,9 +1,12 @@
 import './App.css'
 
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import Companies from './components/companies'
 import Company from './components/company'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { createMuiTheme, IconButton, ThemeProvider } from '@material-ui/core'
+import Home from '@material-ui/icons/Home'
+import Drivers from './components/drivers'
+import Trailers from './components/trailers'
 
 const StyledLink = props => (
     <Link
@@ -18,10 +21,17 @@ const StyledLink = props => (
 )
 
 function App() {
+    const history = useHistory()
+
     return (
         <div className="App">
             <ThemeProvider theme={createMuiTheme({})}>
-                <header className="App-header">GraphQL Proof of Concept</header>
+                <header className="App-header">
+                    GraphQL Proof of Concept
+                    <IconButton style={{ color: '#fff' }} onClick={() => history.push('/')}>
+                        <Home />
+                    </IconButton>
+                </header>
                 <main>
                     <Switch>
                         <Route path="/companies">
@@ -33,6 +43,12 @@ function App() {
                                     <Company />
                                 </Route>
                             </Switch>
+                        </Route>
+                        <Route exact path="/drivers">
+                            <Drivers />
+                        </Route>
+                        <Route exact path="/trailers">
+                            <Trailers />
                         </Route>
                         <Route path="/">
                             <div
