@@ -67,7 +67,10 @@ function App() {
                             <div
                                 style={{
                                     display: 'flex',
-                                    flexDirection: 'column'
+                                    justifyContent: 'space-evenly',
+                                    height: '100%',
+                                    marginTop: 36,
+                                    width: '100%'
                                 }}
                             >
                                 <StyledLink to="/companies">Companies</StyledLink>
