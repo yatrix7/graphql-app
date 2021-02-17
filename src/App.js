@@ -9,6 +9,7 @@ import Drivers from './components/drivers'
 import Trailers from './components/trailers'
 import Trucks from './components/trucks'
 import NewTruck from './components/truck'
+import { useState } from 'react'
 
 const StyledLink = props => (
     <Link
@@ -24,17 +25,46 @@ const StyledLink = props => (
 
 function App() {
     const history = useHistory()
+    const [page, setPage] = useState('')
 
     return (
         <div className="App">
             <ThemeProvider theme={createMuiTheme({})}>
                 <header className="App-header">
-                    GraphQL Proof of Concept
-                    <IconButton style={{ color: '#fff' }} onClick={() => history.push('/')}>
+                    GraphQL Proof of Concept{page && <> &gt; </>}
+                    {page}
+                    <IconButton
+                        style={{ color: '#fff' }}
+                        onClick={() => {
+                            setPage('')
+                            history.push('/')
+                        }}
+                    >
                         <Home />
                     </IconButton>
                 </header>
                 <main>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-evenly',
+                            margin: '24px 0',
+                            width: '100%'
+                        }}
+                    >
+                        <StyledLink onClick={() => setPage('Companies')} to="/companies">
+                            Companies
+                        </StyledLink>
+                        <StyledLink onClick={() => setPage('Drivers')} to="/drivers">
+                            Drivers
+                        </StyledLink>
+                        <StyledLink onClick={() => setPage('Trailers')} to="/trailers">
+                            Trailers
+                        </StyledLink>
+                        <StyledLink onClick={() => setPage('Trucks')} to="/trucks">
+                            Trucks
+                        </StyledLink>
+                    </div>
                     <Switch>
                         <Route path="/companies">
                             <Switch>
@@ -63,22 +93,7 @@ function App() {
                                 <NewTruck />
                             </Route>
                         </Switch> */}
-                        <Route path="/">
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-evenly',
-                                    height: '100%',
-                                    marginTop: 36,
-                                    width: '100%'
-                                }}
-                            >
-                                <StyledLink to="/companies">Companies</StyledLink>
-                                <StyledLink to="/drivers">Drivers</StyledLink>
-                                <StyledLink to="/trailers">Trailers</StyledLink>
-                                <StyledLink to="/trucks">Trucks</StyledLink>
-                            </div>
-                        </Route>
+                        <Route path="/"></Route>
                     </Switch>
                 </main>
             </ThemeProvider>
