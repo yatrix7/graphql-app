@@ -1,9 +1,21 @@
 import './App.css'
 
-import { Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import Companies from './components/companies'
 import Company from './components/company'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+
+const StyledLink = props => (
+    <Link
+        style={{
+            fontSize: '2em',
+            color: '#fff',
+            marginBottom: 20,
+            textDecoration: 'none'
+        }}
+        {...props}
+    ></Link>
+)
 
 function App() {
     return (
@@ -21,6 +33,19 @@ function App() {
                                     <Company />
                                 </Route>
                             </Switch>
+                        </Route>
+                        <Route path="/">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column'
+                                }}
+                            >
+                                <StyledLink to="/companies">Companies</StyledLink>
+                                <StyledLink to="/drivers">Drivers</StyledLink>
+                                <StyledLink to="/trailers">Trailers</StyledLink>
+                                <StyledLink to="/trucks">Trucks</StyledLink>
+                            </div>
                         </Route>
                     </Switch>
                 </main>

@@ -4,7 +4,7 @@ import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core'
 import { gql, useMutation, useQuery } from '@apollo/client'
 import { useHistory, useParams } from 'react-router-dom'
 
-const Company = props => {
+const Company = () => {
     const { id } = useParams()
     const [company, setCompany] = useState({
         _id: '',
@@ -19,6 +19,7 @@ const Company = props => {
         gql`
             query getCompany($id: ObjectId!) {
                 company(query: { _id: $id }) {
+                    _id
                     city
                     company
                     lastUpdated
@@ -54,11 +55,11 @@ const Company = props => {
         `,
         {
             variables: {
-                $id: id,
+                id: company._id,
                 name: company.name,
                 city: company.city,
                 state: company.state,
-                lastUpdated: '10/29/2013'
+                lastUpdated: new Date().toDateString()
             }
         }
     )
@@ -68,7 +69,7 @@ const Company = props => {
     useEffect(() => {
         const { company } = companyResult || { company: {} }
 
-        if (!company.id) {
+        if (company._id) {
             setCompany(company)
         }
     }, [companyResult])
