@@ -7,6 +7,8 @@ import { createMuiTheme, IconButton, ThemeProvider } from '@material-ui/core'
 import Home from '@material-ui/icons/Home'
 import Drivers from './components/drivers'
 import Trailers from './components/trailers'
+import Trucks from './components/trucks'
+import NewTruck from './components/truck'
 
 const StyledLink = props => (
     <Link
@@ -50,6 +52,17 @@ function App() {
                         <Route exact path="/trailers">
                             <Trailers />
                         </Route>
+                        <Route exact path="/trucks">
+                            <Trucks />
+                        </Route>
+                        {/* <Switch>
+                            <Route exact path="/trucks">
+                                <Trucks />
+                            </Route>
+                            <Route path={`/trucks/add`}>
+                                <NewTruck />
+                            </Route>
+                        </Switch> */}
                         <Route path="/">
                             <div
                                 style={{
