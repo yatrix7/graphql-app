@@ -9,44 +9,49 @@ import { BrowserRouter } from 'react-router-dom'
 
 const APP_ID = 'application-0-jdoxb'
 const graphQLUrl = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
-
-
 const app = new Realm.App(APP_ID)
 
-async function getValidAccessToken() {
-    if (!app.currentUser) {
-        // If no user is logged in, log in an anonymous user
-        await app.logIn(Realm.Credentials.anonymous())
-    } else {
-        // The logged in user's access token might be stale,
-        // Refreshing custom data also refreshes the access token
-        await app.currentUser.refreshCustomData()
+async function loginApiKey(apiKey) {
+    // Create an API Key credential
+    const credentials = Realm.Credentials.apiKey(apiKey)
+    try {
+        // Authenticate the user
+        const user = await app.logIn(credentials)
+        // `App.currentUser` updates to match the logged in user
+        // assert(user.id === app.currentUser.id)
+        return user
+    } catch (err) {
+        console.error('Failed to log in', err)
     }
-    // Get a valid access token for the current user
-    return app.currentUser.accessToken
 }
-const client = new ApolloClient({
-    link: new HttpLink({
-        uri: graphQLUrl,
-        fetch: async (uri, options) => {
-            const accessToken = await getValidAccessToken()
-            options.headers.Authorization = `Bearer ${accessToken}`
-            return fetch(uri, options)
-        }
-    }),
-    cache: new InMemoryCache()
-})
 
-ReactDOM.render(
-    <React.StrictMode>
-        <ApolloProvider client={client}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ApolloProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
-)
+loginApiKey('EHUCehUgBvGr5RpOz4NFEEhZnlepn6xtOx6DeSwrdpLxVX8qx2gZiHGANifSfttp').then(user => {
+    console.log('Successfully logged in!', user)
+
+    ReactDOM.render(
+        <React.StrictMode>
+            <ApolloProvider
+                client={
+                    new ApolloClient({
+                        link: new HttpLink({
+                            uri: graphQLUrl,
+                            fetch: async (uri, options) => {
+                                options.headers.Authorization = `Bearer ${user.accessToken}`
+                                return fetch(uri, options)
+                            }
+                        }),
+                        cache: new InMemoryCache()
+                    })
+                }
+            >
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ApolloProvider>
+        </React.StrictMode>,
+        document.getElementById('root')
+    )
+})
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
