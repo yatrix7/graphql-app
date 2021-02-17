@@ -154,7 +154,7 @@
 //             <Grid container spacing={2} justify="flex-end">
 //                 <Button
 //                     style={{ margin: '20px 5px' }}
-//                     color="primary"
+//                     color="secondary"
 //                     variant="contained"
 //                     onClick={() => goBack()}
 //                 >
@@ -162,7 +162,7 @@
 //                 </Button>
 //                 <Button
 //                     style={{ margin: '20px 5px' }}
-//                     color="primary"
+//                     color="secondary"
 //                     variant="contained"
 //                     onClick={() => handleSave()}
 //                 >

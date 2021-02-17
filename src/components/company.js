@@ -148,16 +148,16 @@ const Company = () => {
             </Grid>
             <Grid container spacing={2} justify="flex-end">
                 <Button
-                    style={{ margin: '20px 5px' }}
-                    color="primary"
+                    style={{ margin: '10px 5px 0' }}
+                    color="secondary"
                     variant="contained"
                     onClick={() => goBack()}
                 >
                     Back
                 </Button>
                 <Button
-                    style={{ margin: '20px 5px' }}
-                    color="primary"
+                    style={{ margin: '10px 5px 0' }}
+                    color="secondary"
                     variant="contained"
                     onClick={() => handleSave()}
                 >

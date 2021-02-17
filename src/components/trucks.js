@@ -80,7 +80,7 @@ const Trucks = () => {
             </TableContainer>
             {/* <Fab
                 style={{ position: 'absolute', bottom: 10, right: 10 }}
-                color="primary"
+                color="secondary"
                 onClick={() => history.push('/trucks/add')}
             >
                 <AddIcon />
