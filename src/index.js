@@ -25,7 +25,7 @@ async function loginApiKey(apiKey) {
     }
 }
 
-loginApiKey('EHUCehUgBvGr5RpOz4NFEEhZnlepn6xtOx6DeSwrdpLxVX8qx2gZiHGANifSfttp').then(user => {
+loginApiKey(process.env.REACT_APP_API_KEY).then(user => {
     console.log('Successfully logged in!', user)
 
     ReactDOM.render(
